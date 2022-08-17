@@ -17,7 +17,7 @@ export default function Login() {
 
   function requestAcess(loginObj) {
     setLoading(true);
-    const promise = axios.post("https://twivent-back.herokuapp.com/", loginObj);
+    const promise = axios.post("http://twivent-back.herokuapp.com/", loginObj);
 
     promise.then((res) => {
       const user = {
