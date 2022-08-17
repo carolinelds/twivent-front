@@ -8,40 +8,46 @@ import Button from "@mui/material/Button";
 import Loading from "./Loading";
 import UserContext from "./../contexts/UserContext";
 
-export default function Login() {
-  // eslint-disable-next-line
-  const { user, setUser, Error } = useContext(UserContext);
-  const [login, setLogin] = useState({ email: "", password: "" });
+export default function SignUp() {
+  const { Error } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
+  const [registerUser, setregisterUser] = useState({
+    email: "",
+    password: "",
+    confirm: "",
+  });
   const navigate = useNavigate();
 
-  function requestAcess(loginObj) {
+  function register(registerUser) {
     setLoading(true);
-    const promise = axios.post("http://localhost:5000/login", loginObj);
+    if (registerUser.password !== registerUser.confirm) {
+      alert("Senhas diferentes!");
+      setregisterUser({ ...registerUser, password: "", confirm: "" });
+      return;
+    }
+    delete registerUser.confirm;
+    
+    const promise = axios.post("http://localhost:5000/signup", registerUser);
 
-    promise.then((res) => {
-      const user = {
-        email: res.data.email,
-      };
-      const token = res.data.token;
-
-      localStorage.setItem("TOKEN", token);
-      localStorage.setItem("USER", JSON.stringify(user));
-      navigate("/");
-      setLoading(false);
+    promise.then(() => {
+      navigate("/login");
     });
 
     promise.catch((err) => {
-      Error(err);
-      navigate("/login");
-      setLoading(false);
+      if (err.response.status === 409) {
+        alert("E-mail já cadastrado!");
+        setLoading(false);
+      } else {
+        Error(err);
+        setLoading(false);
+      }
     });
-  }
+  };
 
-  function sendInputData(e) {
+  function sendUser(e) {
     e.preventDefault();
-    requestAcess(login);
-  }
+    register(registerUser);
+  };
 
   return (
     <Div>
@@ -49,25 +55,43 @@ export default function Login() {
         <Loading />
       ) : (
         <>
-          <h1>Entre para criar e </h1>
-          <h1>administrar eventos</h1>
-          <form onSubmit={(e) => sendInputData(e)}>
+          <h1>Crie uma nova conta</h1>
+          <form
+            onSubmit={(e) => {
+              sendUser(e);
+            }}
+          >
             <TextField
               className="textfield"
               type="email"
-              placeholder="E-mail"
-              value={login.email}
+              placeholder="Email"
+              value={registerUser.email}
               disabled={loading}
-              onChange={(e) => setLogin({ ...login, email: e.target.value })}
+              onChange={(e) =>
+                setregisterUser({ ...registerUser, email: e.target.value })
+              }
               required
             />
             <TextField
               className="textfield"
               type="password"
               placeholder="Senha"
-              value={login.password}
+              value={registerUser.password}
               disabled={loading}
-              onChange={(e) => setLogin({ ...login, password: e.target.value })}
+              onChange={(e) =>
+                setregisterUser({ ...registerUser, password: e.target.value })
+              }
+              required
+            />
+            <TextField
+              className="textfield"
+              type="password"
+              placeholder="Confirme a senha"
+              value={registerUser.confirm}
+              disabled={loading}
+              onChange={(e) => {
+                setregisterUser({ ...registerUser, confirm: e.target.value });
+              }}
               required
             />
             <Button
@@ -75,11 +99,10 @@ export default function Login() {
               variant="outlined"
               sx={{ backgroundColor: "#5b8291", opacity: 0.7 }}
             >
-              Entrar
+                Cadastrar
             </Button>
           </form>
-
-          <Link to="/signup">Primeira vez? Cadastre-se</Link>
+          <Link to="/signin">Já tem uma conta? Entre agora!</Link>
         </>
       )}
     </Div>
