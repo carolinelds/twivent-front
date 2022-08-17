@@ -14,23 +14,22 @@ export default function SignUp() {
   const [registerUser, setregisterUser] = useState({
     email: "",
     password: "",
-    confirm: "",
+    confirmPassword: "",
   });
   const navigate = useNavigate();
 
   function register(registerUser) {
     setLoading(true);
-    if (registerUser.password !== registerUser.confirm) {
+    if (registerUser.password !== registerUser.confirmPassword) {
       alert("Senhas diferentes!");
-      setregisterUser({ ...registerUser, password: "", confirm: "" });
+      setregisterUser({ ...registerUser, password: "", confirmPassword: "" });
       return;
-    }
-    delete registerUser.confirm;
-    
-    const promise = axios.post("http://localhost:5000/signup", registerUser);
+    };
+
+    const promise = axios.post("http://localhost:5000/user/signup", registerUser);
 
     promise.then(() => {
-      navigate("/login");
+      navigate("/signin");
     });
 
     promise.catch((err) => {
@@ -90,7 +89,7 @@ export default function SignUp() {
               value={registerUser.confirm}
               disabled={loading}
               onChange={(e) => {
-                setregisterUser({ ...registerUser, confirm: e.target.value });
+                setregisterUser({ ...registerUser, confirmPassword: e.target.value });
               }}
               required
             />

@@ -14,7 +14,7 @@ export default function TopBar() {
 const Div = styled.div`
     height: 60px;
     width: 100%;
-    background-color: #5b8291;
+    background-color: #74bde0;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     position: fixed;
     top: 0;

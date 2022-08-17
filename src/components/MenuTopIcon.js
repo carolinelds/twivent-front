@@ -40,6 +40,12 @@ export default function MenuTopIcon() {
     setState({ ...state, [anchor]: open });
   };
 
+  function logout(){
+    localStorage.clear();
+    navigate("/");
+    return;
+  };
+
   const list = (anchor) => (
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
@@ -106,7 +112,7 @@ export default function MenuTopIcon() {
           </ListItem>
         ) : (
           <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate("/")}>
+            <ListItemButton onClick={() => logout()}>
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>

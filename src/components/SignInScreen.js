@@ -17,7 +17,7 @@ export default function Login() {
 
   function requestAcess(loginObj) {
     setLoading(true);
-    const promise = axios.post("http://localhost:5000/login", loginObj);
+    const promise = axios.post("http://localhost:5000/user/signin", loginObj);
 
     promise.then((res) => {
       const user = {
@@ -33,7 +33,7 @@ export default function Login() {
 
     promise.catch((err) => {
       Error(err);
-      navigate("/login");
+      navigate("/signin");
       setLoading(false);
     });
   }
