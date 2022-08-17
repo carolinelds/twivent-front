@@ -5,7 +5,7 @@ import UserContext from "../contexts/UserContext.js";
 import InitialScreen from "./InitialScreen.js";
 import TopBar from "./TopBar.js";
 //import SignUpScreen from "./SignUpScreen";
-//import SignInScreen from "./SignInScreen";
+import SignInScreen from "./SignInScreen";
 //import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 export default function App() {
@@ -33,6 +33,7 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<InitialScreen />} />
+            <Route path="/signin" element={<SignInScreen />} />
           </Routes>
         </BrowserRouter>
       </UserContext.Provider>

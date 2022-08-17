@@ -3,6 +3,7 @@ import "./../assets/css/fonts.css";
 import TextField from "@mui/material/TextField";
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
+import { Link, useNavigate } from "react-router-dom";
 
 export default function InitialScreen() {
   return (
@@ -14,7 +15,9 @@ export default function InitialScreen() {
             <SearchIcon />
           </Button>  
         </div>
-        <p>Criar evento</p> 
+        <Link to="/signin">
+          <p>Criar evento</p>
+        </Link>
     </Div>
   );
 }
@@ -46,6 +49,7 @@ const Div = styled.div`
   }
 
   button:hover {
+    cursor: pointer;
     background-color: #5b8291;
     opacity: 1;
   }
