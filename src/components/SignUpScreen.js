@@ -26,7 +26,7 @@ export default function SignUp() {
       return;
     };
 
-    const promise = axios.post("http://localhost:5000/user/signup", registerUser);
+    const promise = axios.post("https://twivent-back.herokuapp.com/", registerUser);
 
     promise.then(() => {
       navigate("/signin");
