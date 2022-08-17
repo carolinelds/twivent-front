@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate, Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -8,17 +9,25 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
+import HomeIcon from "@mui/icons-material/Home";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import LoginIcon from '@mui/icons-material/Login';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import LogoutIcon from '@mui/icons-material/Logout';
 
-export default function TemporaryDrawer() {
+export default function MenuTopIcon() {
   const [state, setState] = React.useState({
     top: false,
     left: false,
     bottom: false,
-    right: false
+    right: false,
   });
+
+  const navigate = useNavigate();
+
+  const TOKEN = localStorage.getItem("TOKEN");
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -39,29 +48,72 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
+        {TOKEN === null ? (
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => navigate("/")}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <HomeIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={"Homepage"} />
             </ListItemButton>
           </ListItem>
-        ))}
+        ) : (
+          <ListItem disablePadding>
+            <div className="list-container">
+              <ListItemButton onClick={() => navigate("/")}>
+                <ListItemIcon>
+                  <HomeIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Homepage"} />
+              </ListItemButton>
+
+              <ListItemButton onClick={() => navigate("/newevent")}>
+                <ListItemIcon>
+                  <AddBoxIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Criar evento"} />
+              </ListItemButton>
+
+              <ListItemButton onClick={() => navigate("/myevents")}>
+                <ListItemIcon>
+                  <AccountBoxIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Meus eventos"} />
+              </ListItemButton>
+            </div>
+          </ListItem>
+        )}
       </List>
       <Divider />
       <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
+        {TOKEN === null ? (
+          <ListItem disablePadding>
+            <div className="list-container">
+              <ListItemButton onClick={() => navigate("/signin")}>
+                <ListItemIcon>
+                  <LoginIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Login"} />
+              </ListItemButton>
+
+              <ListItemButton onClick={() => navigate("/signup")}>
+                <ListItemIcon>
+                  <PersonAddIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Criar conta"} />
+              </ListItemButton>
+            </div>
+          </ListItem>
+        ) : (
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => navigate("/")}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <LogoutIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={"Logout"} />
             </ListItemButton>
           </ListItem>
-        ))}
+        )}
       </List>
     </Box>
   );

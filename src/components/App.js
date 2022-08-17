@@ -29,8 +29,8 @@ export default function App() {
           Error
         }}
       >
-        <TopBar />
         <BrowserRouter>
+          <TopBar />
           <Routes>
             <Route path="/" element={<InitialScreen />} />
             <Route path="/signin" element={<SignInScreen />} />
